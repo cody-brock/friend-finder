@@ -25,9 +25,9 @@
       <h2 class="text-center">Friend Survey Page</h2>
       <br>
       <div class="text-center">
-        <a href="/home">
+        <a href="/">
           <button class="btn btn-lg btn-primary">
-            <span class="fa fa-home"></span>Return Home</button>
+            <span class="fa fa-home"></span> Return Home</button>
         </a>
       </div>
     </div>
@@ -66,7 +66,7 @@
     <footer class="footer">
       <div class="container">
         <p>
-          <a href="../data/friends">API Table Link</a>
+          <a href="app/data/friends">API Friends Link</a>
       </div>
     </footer>
 
@@ -125,7 +125,7 @@
           // Clear the form when submitting
           $("#name").val("");
           $("#photo").val("");
-          // $("#survey-questions").val("");
+          $("input:radio").attr("checked", false);
           
         });
     });
