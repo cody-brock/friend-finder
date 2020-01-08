@@ -17,8 +17,8 @@ app.use(express.json());
 // Star Wars Characters (DATA)
 // =============================================================
 
-require('./routes/htmlRoutes')(app);
-require('./routes/apiRoutes')(app);
+require('./app/routes/htmlRoutes')(app);
+require('./app/routes/apiRoutes')(app);
 
 // Starts the server to begin listening
 // =============================================================

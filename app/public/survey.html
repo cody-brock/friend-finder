@@ -51,7 +51,7 @@
                 <input type="text" class="form-control" id="photo">
               </div>
 
-  
+
               <div id="survey-questions"></div>
 
 
@@ -66,102 +66,72 @@
     <footer class="footer">
       <div class="container">
         <p>
-          <a href="/api/tables">API Table Link</a> |
-          <a href="/api/waitlist">API Wait List</a>
+          <a href="../data/friends">API Table Link</a>
       </div>
     </footer>
 
   </div>
 
-</body>
+  <script>
+    //im doin stuff
+    $(document).ready(function () {
+          const html = function (question, index, questions) {
+            return `
+              <div class="form-group"
+              <div><h1>${question}</h1></div>
+              <div id="id-${index+1}">
+                ${[1, 2, 3, 4, 5].map(val => `
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions${index+1}"  value="${val}">
+                    <label class="form-check-label" for="inlineRadio${val}">${val}</label>
+                  </div>
+                  `).join('')}
+              </div> 
+              <br>`
+          };
+          //array of questions
+          const questions = ['question one?', 'question two?', 'question three?', 'question four?', 'question five?']
+          let form = questions.map(html);
+          // console.log("form", form)
+          $('#survey-questions').append(form);
+          
+        //BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER 
+        // In this code below we create the Front-end JavaScript which "POSTS" our form data to our express server.
+        // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
+        // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
+        // In this case the associated code "saves" the data to the table-data.js file or waitinglist-data.js file
 
-</html>
-<script>
-  //im doin stuff
-  $(document).ready(function () {
-        const html = function (question, index, questions) {
-           return `
-            <div class="form-group"
-            <div><h1>${question}</h1></div>
-            <div id="id-${index+1}">
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions${index+1}" value="1">
-                <label class="form-check-label" for="inlineRadio1">1</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions${index+1}" value="2">
-                <label class="form-check-label" for="inlineRadio2">2</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions${index+1}" value="3">
-                <label class="form-check-label" for="inlineRadio3">3</label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions${index+1}" value="4">
-                <label class="form-check-label" for="inlineRadio4">4</label>
-              </div>
-                <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions${index+1}"  value="5">
-                <label class="form-check-label" for="inlineRadio5">5</label>
-              </div>
-            </div> 
-            <br>`
-        };
-        //array of questions
-        const questions = ['question one?', 'question two?', 'question three?', 'question four?', 'question five?']
-        let form = questions.map(html);
-        console.log("form", form)
-        $('#survey-questions').append(form)
-        
-
-
+    $(".submit").on("click", function(event) {
+      event.preventDefault();
       
-      //<!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
-      
-      // In this code below we create the Front-end JavaScript which "POSTS" our form data to our express server.
-      // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
-      // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
-      // In this case the associated code "saves" the data to the table-data.js file or waitinglist-data.js file
+      // Here we grab the form elements
+    var surveyResult = {
+        name: $("#name").val().trim(),
+        photo: $("#photo").val().trim(),
+        scores: questions.map((e, i) => $(`#id-${i+1} input:radio:checked`).val()),
+      };
 
-      
-      
-      
-  $(".submit").on("click", function(event) {
-    event.preventDefault();
-    
-    // Here we grab the form elements
-   var surveyResult = {
-      name: $("#name").val().trim(),
-      photo: $("#photo").val().trim(),
-      scores: questions.map((e, i) => $(`#id-${i+1} input:radio:checked`).val()),
-    };
+      console.log("surveyResult", surveyResult);
 
-    console.log("surveyResult", surveyResult);
-
-    // This line is the magic. It"s very similar to the standard ajax function we used.
-    // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
-    // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
-    // depending on if a tables is available or not.
-    $.post("app/data/friends.js", surveyResult,
-      function(data) {
-        
+      // This line is the magic. It"s very similar to the standard ajax function we used.
+      // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+      // depending on if a tables is available or not.
+      $.post("/app/data/friends", surveyResult,
+        function(data) {
+          
           alert("Yay! We received your survey");
-        
-        
-        
-        
-        // Clear the form when submitting
-        $("#name").val("");
-        $("#photo").val("");
-        $("#survey-questions").val("");
-        
-        
-      });
-
-
-  });
-  
-
-  });
+          
+          // Clear the form when submitting
+          $("#name").val("");
+          $("#photo").val("");
+          // $("#survey-questions").val("");
+          
+        });
+    });
+          
+    });
   </script>
-    
+  
+</body>
+</html>
