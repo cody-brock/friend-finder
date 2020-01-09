@@ -112,7 +112,7 @@
     $(".submit").on("click", function(event) {
       event.preventDefault();
       
-      // Here we grab the form elements
+    // Here we grab the form elements
     var surveyResult = {
         name: $("#name").val().trim(),
         photo: $("#photo").val().trim(),
@@ -128,15 +128,13 @@
       $.post("/app/data/friends", surveyResult,
         function(data) {
 
-          // var closestMatch = require("../routes/apiRoutes");
-          
-          // alert(`Your new friend is ${data.name}`);
+          //Displays results to user
+          Swal.fire({
+            title: `Congratulations!`,
+            html: `Your top friend match is: <br><b>${data.name}</b>`,
+            imageUrl: `${data.photo}`,
 
-          Swal.fire(
-            'The Internet?',
-            'That thing is still around?',
-            'question'
-          )
+          })
           
           // Clear the form when submitting
           $("#name").val("");
