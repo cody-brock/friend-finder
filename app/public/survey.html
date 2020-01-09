@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
   <meta charset="UTF-8">
   <title>Reservation Page</title>
@@ -11,6 +12,8 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 
 </head>
 
@@ -20,7 +23,7 @@
 
     <div class="jumbotron">
       <h1 class="text-center">
-        <span class="fa fa-fire"></span>Friend Finder</h1>
+        <span class="fa fa-users"></span> Friend Finder</h1>
       <hr>
       <h2 class="text-center">Friend Survey Page</h2>
       <br>
@@ -44,20 +47,23 @@
             <form role="form">
               <div class="form-group">
                 <label for="reserve-name">Name</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="name" placeholder="Enter name here">
               </div>
               <div class="form-group">
                 <label for="reserve-phone">Photo</label>
-                <input type="text" class="form-control" id="photo">
+                <input type="text" class="form-control" id="photo" placeholder="Enter a URL for your photo here">
               </div>
 
 
+              <h3>Friend Compatability Survey</h3>
+              <h5>Please answer the following questions.</h5>
+              <h6>"1" means you strongly disagree, "5" means you strongly agree, and "3" is neutral.</h6>
               <div id="survey-questions"></div>
-
-
-              <button type="submit" class="btn btn-primary submit">Submit</button>
             </form>
           </div>
+
+              <button type="submit" class="btn btn-primary submit">Submit</button>
+            
         </div>
       </div>
     </div>
@@ -72,13 +78,15 @@
 
   </div>
 
+  
   <script>
     //im doin stuff
+    
     $(document).ready(function () {
           const html = function (question, index, questions) {
             return `
               <div class="form-group"
-              <div><h1>${question}</h1></div>
+              <div><h5>${question}</h5></div>
               <div id="id-${index+1}">
                 ${[1, 2, 3, 4, 5].map(val => `
                   <div class="form-check form-check-inline">
@@ -90,7 +98,7 @@
               <br>`
           };
           //array of questions
-          const questions = ['question one?', 'question two?', 'question three?', 'question four?', 'question five?']
+          const questions = ['I like to go for hikes.', 'I like to watch sports.', 'I prefer to relax over being active.', 'I love animals.', 'I would never lie to a friend.'] //, 'I like to go to music concerts.', 'Fun conversations are better than serious ones.', 'Friends should do everything together.', 'It\'s OK for friends to arrive late to plans.', 'I would rather go out than stay in.']
           let form = questions.map(html);
           // console.log("form", form)
           $('#survey-questions').append(form);
@@ -119,8 +127,16 @@
       // depending on if a tables is available or not.
       $.post("/app/data/friends", surveyResult,
         function(data) {
+
+          // var closestMatch = require("../routes/apiRoutes");
           
-          alert("Yay! We received your survey");
+          // alert(`Your new friend is ${data.name}`);
+
+          Swal.fire(
+            'The Internet?',
+            'That thing is still around?',
+            'question'
+          )
           
           // Clear the form when submitting
           $("#name").val("");
@@ -128,10 +144,15 @@
           $("input:radio").attr("checked", false);
           
         });
+      
     });
           
     });
   </script>
+  
+  
+  <!-- <script src="../routes/apiRoutes.js" async defer></script> -->
+
   
 </body>
 </html>

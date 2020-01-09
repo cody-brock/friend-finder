@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/cody-brock/friend-finder#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "sweetalert2": "^9.5.4"
   }
 }
