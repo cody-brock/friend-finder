@@ -130,16 +130,6 @@
           return;
         }
 
-        // if ($('div.question-empty-checker:not(:has(:radio:checked))')) {
-        //   Swal.fire({
-        //     icon: 'error',
-        //     title: 'Oops...',
-        //     text: 'You forgot to answer a question!',
-        //     footer: 'Please make sure you\'ve answered all questions, then submit again'
-        //   })
-        //   return;
-        // }
-
         if ($(':radio:checked').length !== 10) {
           Swal.fire({
             icon: 'error',
@@ -149,7 +139,6 @@
           })
           return;
         }
-
         
         // Here we grab the form elements
         var surveyResult = {
